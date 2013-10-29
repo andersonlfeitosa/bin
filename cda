@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/home/anderson/sisbride/tools/class-dependency-analyzer/cda.sh & > /tmp/cda.log 2> /tmp/cda.log
+exit $?

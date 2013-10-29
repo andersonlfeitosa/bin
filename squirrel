@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/home/anderson/sisbride/tools/squirrel-sql-3.5.0-optional/squirrel-sql.sh & > /tmp/squirrel.log 2> /tmp/squirrel.log
+exit $?

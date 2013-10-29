@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/home/anderson/sisbride/tools/jd-gui-0.3.5/jd-gui
+exit $?
