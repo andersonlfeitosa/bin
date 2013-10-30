@@ -1,10 +1,18 @@
 #!/bin/bash
 
+TIMESTAMP=`date +"%Y%m%d-%H%M%S"`;
+
 ##
-# Configuracoes do proxy: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
+# proxy config: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
 ##
 
-TIMESTAMP=`date +"%Y%m%d-%H%M%S"`;
+##
+# global variables
+# make your changes here
+#
+GIT_DOTFILES_REPOSITORY="https://github.com/andersonlf/dotfiles.git";
+GIT_BIN_REPOSITORY="https://github.com/andersonlf/bash-scripts.git";
+LOGIN="anderson";
 
 ##
 # backup $file
@@ -14,7 +22,7 @@ backup_file() {
 }
 
 ##
-# append text parameter to file parameter
+# append text parameter $1 to file parameter $2
 #
 append_text_to_file() {
   echo $1 >> $2;
@@ -24,9 +32,15 @@ append_text_to_file() {
 # configure dotfiles
 #
 configure_dotfiles() {
-  USER=$1;
-  git clone https://github.com/andersonlf/dotfiles.git /home/$USER/dotfiles;
-  sh /home/$USER/dotfiles/install $USER work;
+  su - $LOGIN -c "git -c http.proxy=$http_proxy -c http.sslverify=false clone $GIT_DOTFILES_REPOSITORY /home/$LOGIN/dotfiles;"
+  su - $LOGIN -c "sh -x /home/$LOGIN/dotfiles/install $LOGIN dotfiles/work;"
+}
+
+##
+# configure bin
+#
+configure_bin() {
+  su - $LOGIN -c "git -c http.proxy=$http_proxy -c http.sslverify=false clone $GIT_BIN_REPOSITORY /home/$LOGIN/bin;"
 }
 
 ##
@@ -35,7 +49,7 @@ configure_dotfiles() {
 confugure_profile() {
   FILE=/etc/profile;
   backup_file $FILE;
-  append_text_to_file "export SISBRIDE_HOME=\"/home/anderson/sisbride\";" $FILE;
+  append_text_to_file "export SISBRIDE_HOME=\"/home/$LOGIN/sisbride\";" $FILE;
   append_text_to_file "export JAVA_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_45\";" $FILE;
   append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_45\";" $FILE;
   append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.1.1\";" $FILE;
@@ -72,6 +86,12 @@ export_proxy_variables() {
   export https_proxy="http://189.8.69.36:80/"
   export ftp_proxy="http://189.8.69.36:80/"
   export no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br"
+}
+
+##
+# configure ignore hosts gnome
+#
+configure_ignore_hosts_gnome() {
   gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
 }
 
@@ -106,18 +126,15 @@ if [ `whoami` != "root" ]; then
   echo "you need to be root to execute this script";
   exit 1;
 else 
-  if [ $# -lt 1 ]; then 
-    echo "usage: ./post_install_linux_mint.sh username";
-    exit 1;
-  else 
-    export_proxy_variables
-    install_packages
-    configure_environment
-    confugure_profile
-    configure_network_nsswitch
-    configure_dotfiles $1
-    exit 0;
-  fi
+  export_proxy_variables
+  #configure_environment
+  #confugure_profile
+  #configure_network_nsswitch
+  #configure_ignore_hosts_gnome
+  #install_packages
+  configure_dotfiles
+  configure_bin
+  exit 0;
 fi
 
 
