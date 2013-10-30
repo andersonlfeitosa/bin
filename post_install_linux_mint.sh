@@ -1,9 +1,7 @@
 #!/bin/bash
 
 ##
-# Configuracoes do proxy
-# http://pac.zscaler.net/sicoob.com.br/sicoob.pac
-# ['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']
+# Configuracoes do proxy: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
 ##
 
 TIMESTAMP=`date +"%Y%m%d-%H%M%S"`;
@@ -23,31 +21,12 @@ append_text_to_file() {
 }
 
 ##
-# configure bash
+# configure dotfiles
 #
-configure_bash() {
-  MYUSER=$1
-  FILE=/home/$MYUSER/.bashrc;
-  backup_file $FILE;
-  append_text_to_file "alias set-java-7='export JAVA_HOME=/home/anderson/sisbride/sdk/jdk1.7.0_45;export JRE_HOME=/home/anderson/sisbride/sdk/jdk1.7.0_45;export PATH=\$JAVA_HOME/bin:\$PATH;'" $FILE;
-  append_text_to_file "alias set-java-6='export JAVA_HOME=/home/anderson/sisbride/sdk/jdk1.6.0_45;export JRE_HOME=/home/anderson/sisbride/sdk/jdk1.6.0_45;export PATH=\$JAVA_HOME/bin:\$PATH;'" $FILE;
-  append_text_to_file "alias set-java-5='export JAVA_HOME=/home/anderson/sisbride/sdk/jdk1.5.0_22;export JRE_HOME=/home/anderson/sisbride/sdk/jdk1.5.0_22;export PATH=\$JAVA_HOME/bin:\$PATH;'" $FILE;
-  append_text_to_file "alias ec='mvn eclipse:clean eclipse:eclipse -Dversao.source.java=1.7 -Dversao.target.java=1.7'" $FILE;
-  append_text_to_file "alias io='mvn clean compile install -DskipTests'" $FILE;
-  append_text_to_file "alias mkdir='mkdir -p -v'" $FILE; 
-  append_text_to_file "export LESS=\"-R\"" $FILE;
-  append_text_to_file "eval \"\$(lesspipe)\"" $FILE;
-}
-
-##
-# configure lessfilter
-#
-configure_lessfilter() {
-  MYUSER=$1
-  FILE=/home/$MYUSER/.lessfilter;
-  append_text_to_file "#!/bin/bash" $FILE;
-  append_text_to_file "source-highlight -fesc -oSTDOUT -i \"$1\" 2>/dev/null" $FILE;
-  chmod 755 $FILE;
+configure_dotfiles() {
+  USER=$1;
+  git clone https://github.com/andersonlf/dotfiles.git /home/$USER/dotfiles;
+  sh /home/$USER/dotfiles/install $USER work;
 }
 
 ##
@@ -93,6 +72,7 @@ export_proxy_variables() {
   export https_proxy="http://189.8.69.36:80/"
   export ftp_proxy="http://189.8.69.36:80/"
   export no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br"
+  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
 }
 
 ##
@@ -127,16 +107,15 @@ if [ `whoami` != "root" ]; then
   exit 1;
 else 
   if [ $# -lt 1 ]; then 
-    echo "usage: ./post-install.sh username";
+    echo "usage: ./post_install_linux_mint.sh username";
     exit 1;
   else 
     export_proxy_variables
-    #install_packages
-    #configure_environment
-    #confugure_profile
-    #configure_network_nsswitch
-    #configure_bash $1
-    #configure_lessfilter $1
+    install_packages
+    configure_environment
+    confugure_profile
+    configure_network_nsswitch
+    configure_dotfiles $1
     exit 0;
   fi
 fi
