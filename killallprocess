@@ -4,7 +4,7 @@ if [ "$#" -eq "1" ]
 then
     ps aux | grep $1 | grep -v "/home/anderson/sisbride/bin/killallprocess" | grep -v "grep" | awk -F' ' '{ print $2 }' 
 else 
-    echo "usage: psa PATTERN"
+    echo "usage: killallprocess PATTERN"
 fi
 
 exit $?
