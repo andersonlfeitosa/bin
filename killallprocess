@@ -2,7 +2,10 @@
 
 if [ "$#" -eq "1" ] 
 then
-    ps aux | grep $1 | grep -v "/home/anderson/sisbride/bin/killallprocess" | grep -v "grep" | awk -F' ' '{ print $2 }' 
+    PROCESS=`ps aux | grep $1 | grep -v "/home/anderson/sisbride/bin/killallprocess" | grep -v "grep" | awk -F' ' '{ print $2 }'`;
+    for a in $PROCESS; do {
+      kill -9 $a;
+    }; done;
 else 
     echo "usage: killallprocess PATTERN"
 fi
