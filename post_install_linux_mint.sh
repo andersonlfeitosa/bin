@@ -118,6 +118,7 @@ install_packages() {
   sudo apt-get install git -y
   sudo apt-get install source-highlight -y
   sudo apt-get install ia32-libs -y
+  sudo apt-get install evolution evolution-mapi evolution-ews -y
 }
 
 ##
