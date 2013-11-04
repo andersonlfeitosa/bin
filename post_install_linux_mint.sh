@@ -117,6 +117,7 @@ install_packages() {
   sudo apt-get install p7zip-full -y
   sudo apt-get install git -y
   sudo apt-get install source-highlight -y
+  sudo apt-get install ia32-libs -y
 }
 
 ##
