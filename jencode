@@ -1,4 +1,4 @@
 #!/bin/bash
 
-java -jar /home/anderson/sisbride/tools/jencode-1.0.0/jencode.jar
+java -jar /home/anderson/sisbride/tools/jencode-1.0.0/jencode.jar $1 $2
 exit $?
