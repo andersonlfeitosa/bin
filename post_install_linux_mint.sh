@@ -119,6 +119,7 @@ install_packages() {
   sudo apt-get install source-highlight -y
   sudo apt-get install ia32-libs -y
   sudo apt-get install evolution evolution-mapi evolution-ews -y
+  sudo apt-get remove icedtea* -y
 }
 
 ##
@@ -129,11 +130,11 @@ if [ `whoami` != "root" ]; then
   exit 1;
 else 
   export_proxy_variables
-  #configure_environment
-  #confugure_profile
-  #configure_network_nsswitch
-  #configure_ignore_hosts_gnome
-  #install_packages
+  configure_environment
+  confugure_profile
+  configure_network_nsswitch
+  configure_ignore_hosts_gnome
+  install_packages
   configure_dotfiles
   configure_bin
   exit 0;
