@@ -95,6 +95,12 @@ configure_ignore_hosts_gnome() {
   gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
 }
 
+configure_java_oracle() {
+  sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java" 1
+  sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java
+  su - $LOGIN -c "ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so ~/.mozilla/plugins"
+}
+
 ##
 # installing packages
 #
@@ -128,15 +134,16 @@ install_packages() {
 if [ `whoami` != "root" ]; then
   echo "you need to be root to execute this script";
   exit 1;
-else 
+else
   export_proxy_variables
   configure_environment
   confugure_profile
   configure_network_nsswitch
-  configure_ignore_hosts_gnome
   install_packages
-  configure_dotfiles
-  configure_bin
+  configure_ignore_hosts_gnome
+  configure_java_oracle
+  #configure_dotfiles
+  #configure_bin
   exit 0;
 fi
 
