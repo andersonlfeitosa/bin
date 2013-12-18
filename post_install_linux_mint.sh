@@ -54,7 +54,7 @@ confugure_profile() {
   append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_45\";" $FILE;
   append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.1.1\";" $FILE;
   append_text_to_file "export ANT_HOME=\"\$SISBRIDE_HOME/tools/apache-ant-1.9.2\";" $FILE;
-  append_text_to_file "export PATH=\$PATH:\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin;" $FILE;
+  append_text_to_file "export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin:\$PATH;" $FILE;
 }
 
 ##
@@ -95,10 +95,22 @@ configure_ignore_hosts_gnome() {
   gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
 }
 
+##
+# configure java oracle in system
+#
 configure_java_oracle() {
   sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java" 1
   sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java
-  su - $LOGIN -c "ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so ~/.mozilla/plugins"
+}
+
+##
+# configure java oracle in browsers
+#
+configure_java_oracle_browser() {
+  sudo mkdir -p /usr/lib/mozilla/plugins
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so /usr/lib/mozilla/plugins/libnpjp2.so
+  sudo mkdir -p /usr/lib/chromium-browser/plugins
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so /usr/lib/chromium-browser/plugins/libnpjp2.so
 }
 
 ##
@@ -124,6 +136,8 @@ install_packages() {
   sudo apt-get install git -y
   sudo apt-get install source-highlight -y
   sudo apt-get install ia32-libs -y
+#  sudo apt-get install mono-complete -y
+#  sudo apt-get install libxslt1-dev -y
   sudo apt-get install evolution evolution-mapi evolution-ews -y
   sudo apt-get remove icedtea* -y
 }
@@ -142,8 +156,9 @@ else
   install_packages
   configure_ignore_hosts_gnome
   configure_java_oracle
-  #configure_dotfiles
-  #configure_bin
+  configure_java_oracle_browser
+  configure_dotfiles
+  configure_bin
   exit 0;
 fi
 
