@@ -130,16 +130,23 @@ install_packages() {
   sudo apt-get install subversion -y
   sudo apt-get install ssh -y
   sudo apt-get install ethtool -y
-  sudo apt-get install playonlinux -y
   sudo apt-get install xterm -y
   sudo apt-get install p7zip-full -y
   sudo apt-get install git -y
   sudo apt-get install source-highlight -y
   sudo apt-get install ia32-libs -y
-#  sudo apt-get install mono-complete -y
-#  sudo apt-get install libxslt1-dev -y
-  sudo apt-get install evolution evolution-mapi evolution-ews -y
   sudo apt-get remove icedtea* -y
+}
+
+##
+# other configs
+#
+other_configs() {
+  echo "davmail_4.4.0-2198-1_all.deb"
+  echo "google-chrome-stable_current_amd64.deb"
+  echo "virtualbox-4.3_4.3.0-89960~Ubuntu~raring_amd64"
+  echo "vagrant_1.4.1_x86_64.deb"
+  echo "xmind-linux-3.4.0.201311050558_amd64.deb"
 }
 
 ##
@@ -159,6 +166,7 @@ else
   configure_java_oracle_browser
   configure_dotfiles
   configure_bin
+  other_configs
   exit 0;
 fi
 
