@@ -1,0 +1,75 @@
+#!/bin/bash
+
+TIMESTAMP=`date +"%Y%m%d-%H%M%S"`;
+
+##
+# proxy config: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
+##
+
+##
+# backup $file
+#
+backup_file() {
+  cp $1 $1.$TIMESTAMP;
+}
+
+##
+# append text parameter $1 to file parameter $2
+#
+append_text_to_file() {
+  echo $1 >> $2;
+}
+
+##
+# setting 
+#
+configure_environment() {
+  FILE=/etc/environment;
+  backup_file $FILE;
+  cat $FILE.$TIMESTAMP | grep PATH > $FILE
+}
+
+##
+# configure routes
+#
+configure_routes() {
+  sudo route add -host 208.100.40.44 gw 10.238.34.126 dev eth0
+  sudo route add -host 199.168.148.20 gw 10.238.34.126 dev eth0
+  sudo route add -host 189.8.69.36 gw 10.238.34.126 dev eth0
+  sudo route add -host 192.168.100.128 gw 10.238.34.126 dev eth0
+
+  sudo route add -net 10.0.0.0 netmask 255.0.0.0 gw 10.238.34.126 dev eth0
+  sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.238.34.126 dev eth0
+
+  sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.1.1 dev wlan0
+}
+
+##
+# configure gsettings
+#
+configure_gsettings() {
+  gsettings set org.gnome.system.proxy ignore-hosts "[]"
+  
+  gsettings set org.gnome.system.proxy.ftp host ""
+  gsettings set org.gnome.system.proxy.ftp port 0
+  
+  gsettings set org.gnome.system.proxy.http host ""
+  gsettings set org.gnome.system.proxy.http port 0
+
+  gsettings set org.gnome.system.proxy.https host ""
+  gsettings set org.gnome.system.proxy.https port 0
+}
+
+##
+# main
+#
+if [ `whoami` != "root" ]; then
+  echo "you need to be root to execute this script";
+  exit 1;
+else
+  configure_routes
+  configure_environment
+  configure_gsettings
+  exit 0;
+fi
+
