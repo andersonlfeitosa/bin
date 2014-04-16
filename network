@@ -1,75 +1,85 @@
 #!/bin/bash
 
-TIMESTAMP=`date +"%Y%m%d-%H%M%S"`;
-
 ##
 # proxy config: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
 ##
 
 ##
-# backup $file
+# configure proxy 
 #
-backup_file() {
-  cp $1 $1.$TIMESTAMP;
+configure_proxy() {
+  ##
+  # environment
+  ##
+  sudo cp environment.proxy environment;
+
+  ##
+  # gsettings
+  ##
+  sudo gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br']"
+  sudo gsettings set org.gnome.system.proxy.ftp host "189.8.69.36"
+  sudo gsettings set org.gnome.system.proxy.ftp port 80
+  sudo gsettings set org.gnome.system.proxy.http host "189.8.69.36"
+  sudo gsettings set org.gnome.system.proxy.http port 80
+  sudo gsettings set org.gnome.system.proxy.https host "189.8.69.36"
+  sudo gsettings set org.gnome.system.proxy.https port 80
+  sudo gsettings set org.gnome.system.proxy mode "manual"
+
+  ##
+  # routes
+  ##
+  sudo ip route flush table all
+  sudo ip link set wlan0 down
+  sudo ip link set eth0 down
+  sudo ip link set eth0 up
 }
 
 ##
-# append text parameter $1 to file parameter $2
+# configure no proxy 
 #
-append_text_to_file() {
-  echo $1 >> $2;
-}
+configure_noproxy() {
+  ##
+  # environment
+  ##
+  sudo cp environment.noproxy environment;
 
-##
-# setting 
-#
-configure_environment() {
-  FILE=/etc/environment;
-  backup_file $FILE;
-  cat $FILE.$TIMESTAMP | grep PATH > $FILE
-}
-
-##
-# configure routes
-#
-configure_routes() {
+  ##
+  # gsettings
+  ##
+  sudo gsettings set org.gnome.system.proxy ignore-hosts "[]"
+  sudo gsettings set org.gnome.system.proxy.ftp host ""
+  sudo gsettings set org.gnome.system.proxy.ftp port 0
+  sudo gsettings set org.gnome.system.proxy.http host ""
+  sudo gsettings set org.gnome.system.proxy.http port 0
+  sudo gsettings set org.gnome.system.proxy.https host ""
+  sudo gsettings set org.gnome.system.proxy.https port 0
+  sudo gsettings set org.gnome.system.proxy mode "none"
+  
+  ##
+  # routes
+  ##
+  sudo ip link set wlan0 up  
   sudo route add -host 208.100.40.44 gw 10.238.34.126 dev eth0
   sudo route add -host 199.168.148.20 gw 10.238.34.126 dev eth0
   sudo route add -host 189.8.69.36 gw 10.238.34.126 dev eth0
   sudo route add -host 192.168.100.128 gw 10.238.34.126 dev eth0
-
   sudo route add -net 10.0.0.0 netmask 255.0.0.0 gw 10.238.34.126 dev eth0
   sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.238.34.126 dev eth0
-
   sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.1.1 dev wlan0
-}
-
-##
-# configure gsettings
-#
-configure_gsettings() {
-  gsettings set org.gnome.system.proxy ignore-hosts "[]"
-  
-  gsettings set org.gnome.system.proxy.ftp host ""
-  gsettings set org.gnome.system.proxy.ftp port 0
-  
-  gsettings set org.gnome.system.proxy.http host ""
-  gsettings set org.gnome.system.proxy.http port 0
-
-  gsettings set org.gnome.system.proxy.https host ""
-  gsettings set org.gnome.system.proxy.https port 0
 }
 
 ##
 # main
 #
-if [ `whoami` != "root" ]; then
-  echo "you need to be root to execute this script";
-  exit 1;
-else
-  configure_routes
-  configure_environment
-  configure_gsettings
-  exit 0;
+if [ $# -eq 1 ]; then
+  REDE=$1;
+  if [ $REDE = "proxy" ]; then
+    configure_proxy;
+  else 
+    configure_noproxy
+  fi
 fi
+
+exit 0;
+
 
