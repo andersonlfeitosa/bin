@@ -50,8 +50,8 @@ confugure_profile() {
   FILE=/etc/profile;
   backup_file $FILE;
   append_text_to_file "export SISBRIDE_HOME=\"/home/$LOGIN/sisbride\";" $FILE;
-  append_text_to_file "export JAVA_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_45\";" $FILE;
-  append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_45\";" $FILE;
+  append_text_to_file "export JAVA_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.8.0_05\";" $FILE;
+  append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.8.0_05\";" $FILE;
   append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.1.1\";" $FILE;
   append_text_to_file "export ANT_HOME=\"\$SISBRIDE_HOME/tools/apache-ant-1.9.2\";" $FILE;
   append_text_to_file "export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin:\$PATH;" $FILE;
@@ -63,10 +63,13 @@ confugure_profile() {
 configure_environment() {
   FILE=/etc/environment;
   backup_file $FILE;
-  append_text_to_file "http_proxy=\"$http_proxy\"" $FILE;
-  append_text_to_file "https_proxy=\"$https_proxy\"" $FILE;
-  append_text_to_file "ftp_proxy=\"$ftp_proxy\"" $FILE;
-  append_text_to_file "no_proxy=\"$no_proxy\"" $FILE;
+  cp $FILE $FILE.noproxy;
+  cp $FILE $FILE.proxy;
+  append_text_to_file "http_proxy=\"$http_proxy\"" $FILE.proxy;
+  append_text_to_file "https_proxy=\"$https_proxy\"" $FILE.proxy;
+  append_text_to_file "ftp_proxy=\"$ftp_proxy\"" $FILE.proxy;
+  append_text_to_file "no_proxy=\"$no_proxy\"" $FILE.proxy;
+  cp $FILE.proxy $FILE;
 }
 
 ##
@@ -93,14 +96,21 @@ export_proxy_variables() {
 #
 configure_ignore_hosts_gnome() {
   gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
+  gsettings set org.gnome.system.proxy.ftp host "189.8.69.36"
+  gsettings set org.gnome.system.proxy.ftp port 80
+  gsettings set org.gnome.system.proxy.http host "189.8.69.36"
+  gsettings set org.gnome.system.proxy.http port 80
+  gsettings set org.gnome.system.proxy.https host "189.8.69.36"
+  gsettings set org.gnome.system.proxy.https port 80
+  gsettings set org.gnome.system.proxy mode "manual"
 }
 
 ##
 # configure java oracle in system
 #
 configure_java_oracle() {
-  sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java" 1
-  sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.7.0_45/bin/java
+  sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.8.0_05/bin/java" 1
+  sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.8.0_05/bin/java
 }
 
 ##
@@ -108,9 +118,9 @@ configure_java_oracle() {
 #
 configure_java_oracle_browser() {
   sudo mkdir -p /usr/lib/mozilla/plugins
-  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so /usr/lib/mozilla/plugins/libnpjp2.so
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.8.0_05/jre/lib/amd64/libnpjp2.so /usr/lib/mozilla/plugins/libnpjp2.so
   sudo mkdir -p /usr/lib/chromium-browser/plugins
-  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so /usr/lib/chromium-browser/plugins/libnpjp2.so
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.8.0_05/jre/lib/amd64/libnpjp2.so /usr/lib/chromium-browser/plugins/libnpjp2.so
 }
 
 ##
@@ -158,10 +168,10 @@ if [ `whoami` != "root" ]; then
 else
   export_proxy_variables
   configure_environment
+  configure_ignore_hosts_gnome
   confugure_profile
   configure_network_nsswitch
   install_packages
-  configure_ignore_hosts_gnome
   configure_java_oracle
   configure_java_oracle_browser
   configure_dotfiles
