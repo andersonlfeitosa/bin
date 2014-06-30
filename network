@@ -135,11 +135,13 @@ if [ $# -eq 1 ]; then
   REDE=$1;
   if [ $REDE = "proxy" ]; then
     configure_proxy;
+    show_report;
   else 
     if [ $REDE = "show" ]; then
       show_report;
     else
       configure_noproxy;
+      show_report;
     fi
   fi
 else 
