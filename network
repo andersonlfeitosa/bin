@@ -1,29 +1,23 @@
 #!/bin/bash
 
 ##
-# proxy config: http://pac.zscaler.net/sicoob.com.br/sicoob.pac
+# This script need two other files: environment.proxy and environment.noproxy
 ##
 
 ##
 # configure proxy 
-#
+##
 configure_proxy() {
-
-  ###
-  # route default with proxy
-  ###
-  #default         10.238.34.126   0.0.0.0         UG    0      0        0 eth0
-  #10.238.34.0     *               255.255.255.128 U     1      0        0 eth0
 
   ##
   # environment
   ##
-  sudo cp /etc/environment.proxy /etc/environment;
+  sudo cp /home/anderson/sisbride/bin/environment.proxy /etc/environment;
 
   ##
   # gsettings
   ##
-  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
+  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*', '10.210.50.252', 'sicoobnet.com.br', 'vsProdBackofficePortal', 'vsprodbackofficeportal', 'clustersflex', '*sisbr.coop.br']"
   gsettings set org.gnome.system.proxy.ftp host "189.8.69.36"
   gsettings set org.gnome.system.proxy.ftp port 80
   gsettings set org.gnome.system.proxy.http host "189.8.69.36"
@@ -46,25 +40,13 @@ configure_proxy() {
 
 ##
 # configure no proxy 
-#
+##
 configure_noproxy() {
-
-  ##
-  # route default without proxy
-  ##
-  #default         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
-  #10.0.0.0        10.238.34.126   255.0.0.0       UG    0      0        0 eth0
-  #10.238.34.0     *               255.255.255.128 U     1      0        0 eth0
-  #189.8.69.36     10.238.34.126   255.255.255.255 UGH   0      0        0 eth0
-  #192.168.1.0     *               255.255.255.0   U     9      0        0 wlan0
-  #correio.sicoob. 10.238.34.126   255.255.255.255 UGH   0      0        0 eth0
-  #199.168.148.20  10.238.34.126   255.255.255.255 UGH   0      0        0 eth0
-  #ip44.208-100-40 10.238.34.126   255.255.255.255 UGH   0      0        0 eth0
 
   ##
   # environment
   ##
-  sudo cp /etc/environment.noproxy /etc/environment;
+  sudo cp /home/anderson/sisbride/bin/environment.noproxy /etc/environment;
 
   unset http_proxy
   unset https_proxy
@@ -86,8 +68,6 @@ configure_noproxy() {
   ##
   # routes
   ##
-  #etudo ip route flush table all  
-  #sudo ip link set wlan0 up  
   sudo route add -host 208.100.40.44 gw 10.238.34.126 dev eth0
   sudo route add -host 199.168.148.20 gw 10.238.34.126 dev eth0
   sudo route add -host 189.8.69.36 gw 10.238.34.126 dev eth0
@@ -95,13 +75,6 @@ configure_noproxy() {
   sudo route add -net 10.0.0.0 netmask 255.0.0.0 gw 10.238.34.126 dev eth0
   sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.238.34.126 dev eth0
   sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.1.1 dev wlan0
-}
-
-##
-# show message error
-##
-show_error() {
-  echo "usage: network [proxy|noproxy|show]"
 }
 
 ##
@@ -129,27 +102,30 @@ show_report() {
 }
 
 ##
+# show message error
+##
+show_error() {
+  echo "usage: network [proxy|noproxy|show]"
+}
+
+##
 # main
-#
-if [ $# -eq 1 ]; then
-  REDE=$1;
-  if [ $REDE = "proxy" ]; then
+##
+case "$1" in
+  proxy)
     configure_proxy;
     show_report;
-  else 
-    if [ $REDE = "show" ]; then
-      show_report;
-    else
-      configure_noproxy;
-      show_report;
-    fi
-  fi
-else 
-  show_error;
-  #exit 1;
-fi
+    ;;
+  noproxy)
+    configure_noproxy;
+    show_report;
+    ;;
+  show)
+    show_report;
+    ;;
+  *)
+    show_error;
+    exit 1;
+esac
 
-#exit 0;
-
-
-
+exit 0;
