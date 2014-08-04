@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <mirrors>
+    <mirror>
+      <id>nexus</id>
+      <name>nexus</name>
+      <url>http://repo.sicoob.com.br/nexus/content/groups/public/</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+
+  <servers>
+    <server>
+      <id>sicoob-releases</id>
+      <username>deployment</username>
+      <password>Z8l5Puy4y8hIE</password>
+    </server>
+    <server>
+      <id>sicoob-snapshots</id>
+      <username>deployment</username>
+      <password>Z8l5Puy4y8hIE</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>sicoob</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>sicoob-snapshots</id>
+          <name>Sicoob Snapshots</name>
+          <releases>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+          <url>http://repo.sicoob.com.br/nexus/content/repositories/sicoob-snapshots/</url>
+          <layout>default</layout>
+        </repository>
+        <repository>
+          <id>sicoob-releases</id>
+          <name>Sicoob Releases</name>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </snapshots>
+          <url>http://repo.sicoob.com.br/nexus/content/repositories/sicoob-releases/</url>
+          <layout>default</layout>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+</settings>

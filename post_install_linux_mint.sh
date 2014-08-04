@@ -88,14 +88,14 @@ export_proxy_variables() {
   export http_proxy="http://189.8.69.36:80/"
   export https_proxy="http://189.8.69.36:80/"
   export ftp_proxy="http://189.8.69.36:80/"
-  export no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br"
+  export no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br,.bancoob.br,10.210.50.252,vsProdBackofficePortal,vsprodbackofficeportal,clustersflex,.sisbr.coop.br,sicoobnet.com.br"
 }
 
 ##
 # configure ignore hosts gnome
 #
 configure_ignore_hosts_gnome() {
-  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*']"
+  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*', '10.210.50.252', 'sicoobnet.com.br', 'vsProdBackofficePortal', 'vsprodbackofficeportal', 'clustersflex', '*sisbr.coop.br']"
   gsettings set org.gnome.system.proxy.ftp host "189.8.69.36"
   gsettings set org.gnome.system.proxy.ftp port 80
   gsettings set org.gnome.system.proxy.http host "189.8.69.36"
@@ -145,6 +145,7 @@ install_packages() {
   sudo apt-get install git -y
   sudo apt-get install source-highlight -y
   sudo apt-get install ia32-libs -y
+  sudo apt-get install clementine -y
   sudo apt-get remove icedtea* -y
 }
 
