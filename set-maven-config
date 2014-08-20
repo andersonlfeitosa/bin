@@ -1,25 +1,37 @@
 #!/bin/bash
 
 DIR=/home/anderson/sisbride/bin;
-MVN_PATH=/home/anderson/sisbride/tools/apache-maven-$2;
+SISBRIDE_TOOLS=/home/anderson/sisbride/tools;
+MVN_PATH=$SISBRIDE_TOOLS/apache-maven-$2;
 
-case $1 in
-  s )
-    cp $DIR/settings.xml.sicoob $MVN_PATH/conf/settings.xml;
-    cat $MVN_PATH/conf/settings.xml;
-    ;;
-  d )
-    cp $DIR/settings.xml.default $MVN_PATH/conf/settings.xml;
-    cat $MVN_PATH/conf/settings.xml;
-    ;;
-  dp )
-    cp $DIR/settings.xml.default.proxy $MVN_PATH/conf/settings.xml;
-    cat $MVN_PATH/conf/settings.xml;
-    ;;
-  * )
+copy_file() {
+  cp $1 $2;
+  cat $2;
+}
+
+show_error() {
     echo "usage: set-maven-config [s|d|dp] MAVEN_VERSION"
     echo "param: s - Maven settings with enterprise repository"
     echo "param: d - Default Maven settings"
     echo "param: dp - Default Maven settings with enterprise proxy"
+    echo "Apache Maven versions available: "
+    echo "`find $SISBRIDE_TOOLS -maxdepth 1 -type d -name 'apache-maven*'`"
+    exit 1
+}
+
+case $1 in
+  s )
+    copy_file $DIR/settings.xml.sicoob $MVN_PATH/conf/settings.xml;
+    ;;
+  d )
+    copy_file $DIR/settings.xml.default $MVN_PATH/conf/settings.xml;
+    ;;
+  dp )
+    copy_file $DIR/settings.xml.default.proxy $MVN_PATH/conf/settings.xml;
+    ;;
+  * )
+    show_error
     ;;
 esac
+
+exit $?
