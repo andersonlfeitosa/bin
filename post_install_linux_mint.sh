@@ -50,10 +50,10 @@ confugure_profile() {
   FILE=/etc/profile;
   backup_file $FILE;
   append_text_to_file "export SISBRIDE_HOME=\"/home/$LOGIN/sisbride\";" $FILE;
-  append_text_to_file "export JAVA_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_60\";" $FILE;
-  append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.7.0_60\";" $FILE;
-  append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.1.1\";" $FILE;
-  append_text_to_file "export ANT_HOME=\"\$SISBRIDE_HOME/tools/apache-ant-1.9.2\";" $FILE;
+  append_text_to_file "export JAVA_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.8.0_20\";" $FILE;
+  append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.8.0_20\";" $FILE;
+  append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.2.3\";" $FILE;
+  append_text_to_file "export ANT_HOME=\"\$SISBRIDE_HOME/tools/apache-ant-1.9.4\";" $FILE;
   append_text_to_file "export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin:\$PATH;" $FILE;
 }
 
@@ -109,8 +109,8 @@ configure_ignore_hosts_gnome() {
 # configure java oracle in system
 #
 configure_java_oracle() {
-  sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.7.0_60/bin/java" 1
-  sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.7.0_60/bin/java
+  sudo update-alternatives --install "/usr/bin/java" "java" "/home/anderson/sisbride/sdk/jdk1.8.0_20/bin/java" 1
+  sudo update-alternatives --set java /home/anderson/sisbride/sdk/jdk1.8.0_20/bin/java
 }
 
 ##
@@ -118,9 +118,9 @@ configure_java_oracle() {
 #
 configure_java_oracle_browser() {
   sudo mkdir -p /usr/lib/mozilla/plugins
-  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_60/jre/lib/amd64/libnpjp2.so /usr/lib/mozilla/plugins/libnpjp2.so
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.8.0_20/jre/lib/amd64/libnpjp2.so /usr/lib/mozilla/plugins/libnpjp2.so
   sudo mkdir -p /usr/lib/chromium-browser/plugins
-  sudo ln -s /home/anderson/sisbride/sdk/jdk1.7.0_60/jre/lib/amd64/libnpjp2.so /usr/lib/chromium-browser/plugins/libnpjp2.so
+  sudo ln -s /home/anderson/sisbride/sdk/jdk1.8.0_20/jre/lib/amd64/libnpjp2.so /usr/lib/chromium-browser/plugins/libnpjp2.so
 }
 
 ##
