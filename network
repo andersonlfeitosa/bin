@@ -17,7 +17,7 @@ configure_proxy() {
   ##
   # gsettings
   ##
-  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'jb*', 'gis*', 'sicoob*', '10.210.50.252', 'sicoobnet.com.br', 'vsProdBackofficePortal', 'vsprodbackofficeportal', 'clustersflex', '*sisbr.coop.br']"
+  gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '*sicoob.com.br', '*bancoob.com.br', '*bancoob.br', '*homologacao.com.br', 'gis*', 'sicoob*', '10.210.50.252', 'sicoobnet.com.br', 'vsProdBackofficePortal', 'vsprodbackofficeportal', 'clustersflex', '*sisbr.coop.br']"
   gsettings set org.gnome.system.proxy.ftp host "189.8.69.42"
   gsettings set org.gnome.system.proxy.ftp port 80
   gsettings set org.gnome.system.proxy.http host "189.8.69.42"
