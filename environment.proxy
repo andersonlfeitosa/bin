@@ -2,4 +2,4 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/u
 http_proxy="http://189.8.69.42:80/"
 https_proxy="http://189.8.69.42:80/"
 ftp_proxy="http://189.8.69.42:80/"
-no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br,.bancoob.br,10.210.50.252,vsProdBackofficePortal,vsprodbackofficeportal,clustersflex,.sisbr.coop.br,sicoobnet.com.br"
+no_proxy="localhost,127.0.0.1,.sicoob.com.br,.bancoob.com.br,.homologacao.com.br,svn.sicoob.com.br,.bancoob.br,10.210.50.252,vsProdBackofficePortal,vsprodbackofficeportal,clustersflex,.sisbr.coop.br,sicoobnet.com.br,10.221.1.58,10.220.1.240"

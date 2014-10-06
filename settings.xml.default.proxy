@@ -99,7 +99,7 @@ under the License.
       <username>proxyuser</username>
       <password>proxypass</password>
   		-->
-      <host>189.8.69.36</host>
+      <host>189.8.69.42</host>
       <port>80</port>
       <nonProxyHosts>local.net|repo.sicoob.com.br|jbsp168</nonProxyHosts>
     </proxy>

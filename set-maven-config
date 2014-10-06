@@ -11,22 +11,22 @@ copy_file() {
 
 show_error() {
     echo "usage: set-maven-config [s|d|dp] MAVEN_VERSION"
-    echo "param: s - Maven settings with enterprise repository"
-    echo "param: d - Default Maven settings"
-    echo "param: dp - Default Maven settings with enterprise proxy"
+    echo "param: s or sicoob - Maven settings with enterprise repository"
+    echo "param: d or default- Default Maven settings"
+    echo "param: dp or default_proxy - Default Maven settings with enterprise proxy"
     echo "Apache Maven versions available: "
     echo "`find $SISBRIDE_TOOLS -maxdepth 1 -type d -name 'apache-maven*'`"
     exit 1
 }
 
 case $1 in
-  s )
+  s | sicoob )
     copy_file $DIR/settings.xml.sicoob $MVN_PATH/conf/settings.xml;
     ;;
-  d )
+  d | default )
     copy_file $DIR/settings.xml.default $MVN_PATH/conf/settings.xml;
     ;;
-  dp )
+  dp | default_proxy )
     copy_file $DIR/settings.xml.default.proxy $MVN_PATH/conf/settings.xml;
     ;;
   * )
@@ -34,4 +34,6 @@ case $1 in
     ;;
 esac
 
-exit $?
+echo "export MAVEN_HOME="$SISBRIDE_TOOLS/apache-maven-$2;
+echo "export PATH="$SISBRIDE_TOOLS/apache-maven-$2/bin":\$PATH";
+
