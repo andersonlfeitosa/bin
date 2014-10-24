@@ -54,7 +54,7 @@ confugure_profile() {
   append_text_to_file "export JRE_HOME=\"\$SISBRIDE_HOME/sdk/jdk1.8.0_20\";" $FILE;
   append_text_to_file "export MAVEN_HOME=\"\$SISBRIDE_HOME/tools/apache-maven-3.2.3\";" $FILE;
   append_text_to_file "export ANT_HOME=\"\$SISBRIDE_HOME/tools/apache-ant-1.9.4\";" $FILE;
-  append_text_to_file "export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin:\$PATH;" $FILE;
+  append_text_to_file "export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$ANT_HOME/bin:\$SISBRIDE_HOME/bin/work:\$PATH;" $FILE;
 }
 
 ##

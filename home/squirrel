@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/home/anderson/homeoffice/tools/squirrel-sql/squirrel-sql.sh & > /tmp/squirrel.log 2> /tmp/squirrel.log
+exit $?

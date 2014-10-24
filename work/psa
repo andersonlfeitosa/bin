@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$#" -eq "1" ] 
+then
+    ps aux | grep $1 | grep -v "/home/anderson/sisbride/bin/work/psa" | grep -v "grep"
+else 
+    echo "usage: psa PATTERN"
+fi
+
+exit $?

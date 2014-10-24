@@ -1,0 +1,4 @@
+#!/bin/sh
+
+java -jar /home/anderson/homeoffice/tools/classist/classist-0.3.jar
+exit $?

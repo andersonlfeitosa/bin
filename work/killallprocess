@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ "$#" -eq "1" ] 
+then
+    PROCESS=`ps aux | grep $1 | grep -v "/home/anderson/sisbride/bin/work/killallprocess" | grep -v "grep" | awk -F' ' '{ print $2 }'`;
+    for a in $PROCESS; do {
+      kill -9 $a;
+    }; done;
+else 
+    echo "usage: killallprocess PATTERN"
+fi
+
+exit $?
