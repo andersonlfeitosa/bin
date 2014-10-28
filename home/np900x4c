@@ -9,6 +9,7 @@ setting_max_performance() {
 
   # Temp disable bluetooth
   # modprobe -r btusb
+  samsung-tools -q -B on
 
   # Adjust backlight to start much lower
   echo 25 | sudo tee /sys/class/backlight/acpi_video0/brightness > /dev/null
@@ -40,6 +41,7 @@ setting_max_battery() {
 
   # Temp disable bluetooth
   # modprobe -r btusb
+  samsung-tools -q -B off
 
   # Adjust backlight to start much lower
   echo 0 | sudo tee /sys/class/backlight/acpi_video0/brightness > /dev/null
@@ -66,11 +68,25 @@ print_values() {
   echo -n "Brightness: "; 
   cat /sys/class/backlight/acpi_video0/brightness
 
-  echo -n "NMI Watchdog: "
+  echo -n "NMI Watchdog: "; 
   cat /proc/sys/kernel/nmi_watchdog
 
-  echo -n "SATA Active Link Powermanagement: "
+  echo -n "SATA Active Link Power Management: "; 
   cat /sys/class/scsi_host/host0/link_power_management_policy
+
+  echo "USB Autosuspend: "; 
+  for i in `find /sys/bus/usb/devices/*/power/control`; do echo -n $i": "; cat $i; done; 
+  for i in `find /sys/bus/usb/devices/*/power/autosuspend`; do echo -n $i": "; cat $i; done;
+
+  #echo "Device Power Management: "; 
+  #for i in `find /sys/bus/i2c/devices/*/power/control`; do echo -n $i": "; cat $i; done; 
+  #for i in `find /sys/bus/pci/devices/*/power/control`; do echo -n $i": "; cat $i; done;
+
+  echo "CPU Scaling: "; 
+  for i in `find /sys/devices/system/cpu/*/cpufreq/scaling_governor`; do echo -n $i": "; cat $i; done;
+
+  echo "Devices: "; 
+  /usr/bin/samsung-tools -a
 }
 
 print_info() {
