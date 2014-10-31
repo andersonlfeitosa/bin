@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/home/anderson/sisbride/tools/class-dependency-analyzer/cda.sh & > /tmp/cda.log 2> /tmp/cda.log
+/home/anderson/homeoffice/tools/class-dependency-analyzer-1.15.0/cda.sh & > /tmp/cda.log 2> /tmp/cda.log
 exit $?
