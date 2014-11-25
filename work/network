@@ -4,11 +4,11 @@
 # This script need two other files: environment.proxy and environment.noproxy
 ##
 configure_proxy_environment() {
-  sudo cp /home/anderson/sisbride/bin/environment.proxy /etc/environment;
+  sudo cp /home/anderson/sisbride/bin/work/environment.proxy /etc/environment;
 }
 
 configure_noproxy_environment() {
-  sudo cp /home/anderson/sisbride/bin/environment.noproxy /etc/environment;
+  sudo cp /home/anderson/sisbride/bin/work/environment.noproxy /etc/environment;
   unset http_proxy
   unset https_proxy
   unset ftp_proxy
