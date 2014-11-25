@@ -75,6 +75,17 @@ configure_noproxy_apt() {
   sudo rm -f /etc/apt/apt.conf.d/99proxy
 }
 
+configure_proxy_git() {
+  rm -f /home/anderson/.gitconfig;
+  cp proxy/gitconfig /home/anderson/.gitconfig;
+}
+
+configure_noproxy_git() {
+  rm -f /home/anderson/.gitconfig;
+  ln -s /home/anderson/homeoffice/dotfiles/home/gitconfig /home/anderson/.gitconfig;
+}
+
+
 ##
 # show configure
 ##
@@ -103,6 +114,10 @@ show_report() {
 
   sudo cat /etc/apt/apt.conf.d/99proxy;
 
+  sleep $TIME;
+
+  sudo cat /home/anderson/.gitconfig;
+
 }
 
 ##
@@ -122,6 +137,7 @@ case "$1" in
     configure_proxy_gsettings_http;
     configure_proxy_routes;
     configure_proxy_apt;
+    configure_proxy_git;
     show_report;
     ;;
   ps | pac)
@@ -130,6 +146,7 @@ case "$1" in
     configure_proxy_gsettings_pac;
     configure_proxy_routes;
     configure_proxy_apt;
+    configure_proxy_git;
     show_report;
     ;;
   np | no_proxy)
@@ -138,6 +155,7 @@ case "$1" in
     configure_noproxy_gsettings_pac;
     configure_noproxy_routes;
     configure_noproxy_apt
+    configure_noproxy_apt;
     show_report;
     ;;
   s | show)
