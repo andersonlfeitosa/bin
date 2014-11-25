@@ -74,7 +74,7 @@ configure_noproxy_git() {
 }
 
 configure_proxy_maven() {
-  cp /home/anderson/homeoffice/bash-scripts/home/proxy/settings.xml.proxy /home/anderson/homeoffice/tools/apache-maven-3.2.3/conf/settings.xml;
+  cp /home/anderson/homeoffice/bash-scripts/home/proxy/settings.xml.nexus /home/anderson/homeoffice/tools/apache-maven-3.2.3/conf/settings.xml;
 }
 
 configure_noproxy_maven() {
