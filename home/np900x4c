@@ -21,15 +21,15 @@ setting_max_performance() {
   echo 'max_performance' | sudo tee /sys/class/scsi_host/host0/link_power_management_policy > /dev/null;
 
   # - USB Autosuspend (after 2 secs of inactivity)
-  #for i in `find /sys/bus/usb/devices/*/power/control`; do echo auto | sudo tee $i > /dev/null; done;
-  #for i in `find /sys/bus/usb/devices/*/power/autosuspend`; do echo 2 | sudo tee $i > /dev/null; done;
+  for i in `find /sys/bus/usb/devices/*/power/control`; do echo on | sudo tee $i > /dev/null; done;
+  for i in `find /sys/bus/usb/devices/*/power/autosuspend`; do echo 2 | sudo tee $i > /dev/null; done;
 
   # - Device Power Management
-  #echo auto | sudo tee /sys/bus/i2c/devices/*/power/control > /dev/null;
-  #echo auto | sudo tee /sys/bus/pci/devices/*/power/control > /dev/null;
+  echo on | sudo tee /sys/bus/i2c/devices/*/power/control > /dev/null;
+  echo on | sudo tee /sys/bus/pci/devices/*/power/control > /dev/null;
 
   # - CPU Scaling (on demand scaling governor for all CPU's
-  #for i in `find /sys/devices/system/cpu/*/cpufreq/scaling_governor`; do echo ondemand | sudo tee $i > /dev/null; done;
+  for i in `find /sys/devices/system/cpu/*/cpufreq/scaling_governor`; do echo ondemand | sudo tee $i > /dev/null; done;
 }
 
 setting_max_battery() {
@@ -53,15 +53,15 @@ setting_max_battery() {
   echo 'min_power' | sudo tee /sys/class/scsi_host/host0/link_power_management_policy > /dev/null;
 
   # - USB Autosuspend (after 2 secs of inactivity)
-  #for i in `find /sys/bus/usb/devices/*/power/control`; do echo auto | sudo tee $i > /dev/null; done;
-  #for i in `find /sys/bus/usb/devices/*/power/autosuspend`; do echo 2 | sudo tee $i > /dev/null; done;
+  for i in `find /sys/bus/usb/devices/*/power/control`; do echo auto | sudo tee $i > /dev/null; done;
+  for i in `find /sys/bus/usb/devices/*/power/autosuspend`; do echo 2 | sudo tee $i > /dev/null; done;
 
   # - Device Power Management
-  #echo auto | sudo tee /sys/bus/i2c/devices/*/power/control > /dev/null;
-  #echo auto | sudo tee /sys/bus/pci/devices/*/power/control > /dev/null;
+  echo auto | sudo tee /sys/bus/i2c/devices/*/power/control > /dev/null;
+  echo auto | sudo tee /sys/bus/pci/devices/*/power/control > /dev/null;
 
   # - CPU Scaling (on demand scaling governor for all CPU's
-  #for i in `find /sys/devices/system/cpu/*/cpufreq/scaling_governor`; do echo ondemand | sudo tee $i > /dev/null; done;
+  for i in `find /sys/devices/system/cpu/*/cpufreq/scaling_governor`; do echo ondemand | sudo tee $i > /dev/null; done;
 }
 
 print_values() {
