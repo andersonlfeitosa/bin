@@ -1,8 +1,10 @@
 #!/bin/bash
 
+MY_SCRIPT=`basename "$0"`
+
 if [ "$#" -eq "1" ] 
 then
-    PROCESS=`ps aux | grep $1 | grep -v "/home/anderson/homeoffice/bin/home/killallprocess" | grep -v "grep" | awk -F' ' '{ print $2 }'`;
+    PROCESS=`ps aux | grep $1 | grep -v $MY_SCRIPT | grep -v "grep" | awk -F' ' '{ print $2 }'`;
     for a in $PROCESS; do {
       kill -9 $a;
     }; done;
