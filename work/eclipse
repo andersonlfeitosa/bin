@@ -1,7 +1,0 @@
-#!/bin/sh
-
-export SWT_GTK3=0
-export UBUNTU_MENUPROXY=0
-
-/home/anderson/sisbride/ide/eclipse-luna/eclipse -showlocation & > /tmp/eclipse.log 2>&1 
-exit $?

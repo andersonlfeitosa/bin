@@ -1,4 +1,0 @@
-#!/bin/bash
-
-/home/anderson/sisbride/tools/astah_community/astah & > /tmp/astah.log 2> /tmp/astah.log
-exit $?

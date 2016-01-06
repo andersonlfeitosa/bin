@@ -1,4 +1,0 @@
-#!/bin/bash
-
-/home/anderson/homeoffice/tools/astah/astah & > /tmp/astah.log 2> /tmp/astah.log
-exit $?

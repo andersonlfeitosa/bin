@@ -1,4 +1,0 @@
-#!/bin/sh
-
-/home/anderson/homeoffice/tools/jd-gui/jd-gui $1
-exit $?

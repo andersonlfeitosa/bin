@@ -1,4 +1,0 @@
-#!/bin/sh
-
-java -jar /home/anderson/sisbride/tools/classist-0.3/classist-0.3.jar
-exit $?

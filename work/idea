@@ -1,3 +1,0 @@
-#!/bin/sh
-/home/anderson/sisbride/ide/idea-14/bin/idea.sh & > /tmp/idea.log 2>&1 
-exit $?
