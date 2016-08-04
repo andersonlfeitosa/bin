@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ $# -eq 1 ]]; then
-  mvn archetype:generate -DinteractiveMode=false -DarchetypeGroupId=hackerrank -DarchetypeArtifactId=quickstart -DarchetypeVersion=1.0.0-SNAPSHOT -DarchetypeRepository=nexus -DgroupId=hackerrank -DartifactId=$1 -Dversion=1.0.0
-else 
-  echo "usage: hackerrank PROBLEM"
-fi
-
-exit $?
