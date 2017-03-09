@@ -1,0 +1,29 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ $# == 1 ]
+then
+  DIR=$1;
+fi
+
+for a in `ls $DIR`; do {
+  DIR_TO_CKECk=$DIR/$a
+  echo ">>>" $DIR_TO_CKECk;
+  if [ -d $DIR_TO_CKECk ]
+  then
+    cd $DIR_TO_CKECk;
+    if [ -d .git ]
+    then
+      echo "$ git status";
+      git status;
+      echo "$ git pull";
+      git pull;
+      echo "$ git status";
+      git status;
+      echo;
+    fi
+    cd ..;
+  fi
+}; done;
+
+exit $?
