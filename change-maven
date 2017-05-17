@@ -1,0 +1,19 @@
+#!/bin/bash
+
+MY_SCRIPT=`basename "$0"`
+
+MAVEN_HOME=/usr/local/Cellar/maven/3.5.0
+MAVEN_CONF_DIR=$MAVEN_HOME/libexec/conf
+
+if [ -f $MAVEN_CONF_DIR/CS ]
+then 
+  rm -f $MAVEN_CONF_DIR/CS;
+  cp $MAVEN_CONF_DIR/settings.default.xml $MAVEN_CONF_DIR/settings.xml;
+  touch $MAVEN_CONF_DIR/DEFAULT;
+else
+  rm -f $MAVEN_CONF_DIR/DEFAULT;
+  cp $MAVEN_CONF_DIR/settings.caixa.xml $MAVEN_CONF_DIR/settings.xml;
+  touch $MAVEN_CONF_DIR/CS;
+fi
+
+cat $MAVEN_CONF_DIR/settings.xml
