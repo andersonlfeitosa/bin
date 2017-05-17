@@ -1,0 +1,128 @@
+#!/bin/bash
+
+DIR_BASE=/opt/microsservicos
+
+check_sudo() {
+  sudo java -version > /dev/null 2>&1
+}
+
+process() {
+  COMMAND=$1
+  SERVICE_NAME=$2
+  SERVICE="default"
+
+  case "$SERVICE_NAME" in
+    config )
+      SERVICE="gcs-central-configuracao.jar"
+      ;;
+    registry )
+      SERVICE="gcs-central-registro.jar"
+      ;;
+    person )
+      SERVICE="gcs-pessoa.jar"
+      ;;
+    contract )
+      SERVICE="gcs-contrato.jar"
+      ;;
+    all )
+      SERVICE="all"
+      ;;
+    * )
+      show_help
+      ;;
+  esac
+
+  case "$COMMAND" in
+    start )
+      process_start $SERVICE
+      ;;
+    stop )
+      process_stop $SERVICE 
+      ;;
+    restart )
+      process_restart $SERVICE
+      ;;
+    status )
+      process_status $SERVICE
+      ;;
+    * )
+      show_help
+      ;;
+  esac
+}
+
+
+process_start() {
+  SERVICE=$1
+  if [ $SERVICE = "all" ]
+  then
+    echo "Start all services at the same time is not allowed!"
+    show_help
+  else
+    sudo java -Djava.security.egd=file:/dev/./urandom -Xmx1024m -jar $SERVICE --spring.profiles.active=dev > nohup.out 2>&1 &
+    tail -F $DIR_BASE/nohup.out
+  fi
+}
+
+
+process_stop() {
+  SERVICE=$1
+  if [ $SERVICE = "all" ]
+  then
+    SERVICE="java"
+  fi
+
+  MY_SCRIPT=`basename "$0"`
+  PROCESS=`ps aux | grep $SERVICE | grep -v $MY_SCRIPT | grep -v "grep" | awk -F' ' '{ print $2 }'`;
+  for a in $PROCESS; do {
+    sudo kill -9 $a;
+  }; done;
+
+  process_status $1
+}
+
+
+process_restart() {
+  SERVICE=$1
+  if [ $SERVICE = "all" ]
+  then
+    echo "Restart all services at the same time is not allowed!"
+    show_help
+  else
+    process_stop $SERVICE
+    process_start $SERVICE
+  fi
+}
+
+
+process_status() {
+  SERVICE=$1
+  if [ $SERVICE = "all" ]
+  then
+    SERVICE="java"
+  fi
+
+  MY_SCRIPT=`basename "$0"`
+  ps aux | grep $SERVICE | grep -v $MY_SCRIPT | grep -v "grep"
+}
+
+
+show_help() {
+  echo "USAGE: start-services COMMAND SERVICE"
+  echo "COMMAND: start stop restart status"
+  echo "SERVICE: config registry person contract all"
+  exit 1
+}
+
+
+###
+## Main
+###
+if [ $# == "2" ]
+then
+  check_sudo
+  process $1 $2
+else
+  show_help
+fi
+
