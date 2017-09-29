@@ -1,7 +1,7 @@
 #!/bin/bash
 
 URL=10.102.1.2:5000/gcs/diclix/visao360
-ENVIRONMENT=prd
+ENVIRONMENT=hom
 
 show_help() {
   echo "USAGE: "$0" COMMAND SERVICE"
@@ -177,10 +177,16 @@ process_command_start() {
       systemctl restart docker    
   fi
 
-  docker kill $DOCKER_CONTAINER;
+  docker stop $DOCKER_CONTAINER;
   docker rm $DOCKER_CONTAINER;
   docker rmi `docker images | grep $IMAGE_NAME | awk -F' ' '{print $3}'`
-  docker run -d --name $DOCKER_CONTAINER --restart=always -p $PORT:$PORT $URL/$IMAGE_NAME:latest --spring.profiles.active=$ENVIRONMENT
+
+  if ([ "$ENVIRONMENT" == "hom" ] && [ "$SERVICE" == "config" ]); then
+    docker run -d --name $DOCKER_CONTAINER --restart=always -p $PORT:$PORT -v /opt/microsservicos/gcs-configuracao:/opt/microsservicos/gcs-configuracao $URL/$IMAGE_NAME:latest --spring.profiles.active=$ENVIRONMENT
+  else
+    docker run -d --name $DOCKER_CONTAINER --restart=always -p $PORT:$PORT $URL/$IMAGE_NAME:latest --spring.profiles.active=$ENVIRONMENT
+  fi
+  
   docker logs -f $DOCKER_CONTAINER;
 }
 
@@ -197,6 +203,7 @@ process_command_stop() {
   fi
 
   docker stop $DOCKER_CONTAINER;
+  docker rm $DOCKER_CONTAINER;
 }
 
 process_command_kill() {
@@ -212,6 +219,7 @@ process_command_kill() {
   fi
 
   docker kill $DOCKER_CONTAINER;
+  docker rm $DOCKER_CONTAINER;
 }
 
 process_command_rm() {
