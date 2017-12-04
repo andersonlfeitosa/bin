@@ -2,18 +2,20 @@
 
 MY_SCRIPT=`basename "$0"`
 
+COMPANY=cabal
+
 MAVEN_HOME=/usr/local/Cellar/maven/3.5.0
 MAVEN_CONF_DIR=$MAVEN_HOME/libexec/conf
 
-if [ -f $MAVEN_CONF_DIR/CS ]
+if [ -f $MAVEN_CONF_DIR/COMPANY ]
 then 
-  rm -f $MAVEN_CONF_DIR/CS;
+  rm -f $MAVEN_CONF_DIR/COMPANY;
   cp $MAVEN_CONF_DIR/settings.default.xml $MAVEN_CONF_DIR/settings.xml;
   touch $MAVEN_CONF_DIR/DEFAULT;
 else
   rm -f $MAVEN_CONF_DIR/DEFAULT;
-  cp $MAVEN_CONF_DIR/settings.caixa.xml $MAVEN_CONF_DIR/settings.xml;
-  touch $MAVEN_CONF_DIR/CS;
+  cp $MAVEN_CONF_DIR/settings.$COMPANY.xml $MAVEN_CONF_DIR/settings.xml;
+  touch $MAVEN_CONF_DIR/COMPANY;
 fi
 
 cat $MAVEN_CONF_DIR/settings.xml
