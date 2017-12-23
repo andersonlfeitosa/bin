@@ -6,7 +6,9 @@ COMMENT='a very simple commit';
 # CMD
 ###
 press_to_continue() {
-  echo "press any key to continue";
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+  echo "press <<ENTER>> to continue";
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
   read;
 }
 
