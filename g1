@@ -52,7 +52,7 @@ prototype() {
       ;;
   esac
 
-  press_to_continue;
+  #press_to_continue;
 }
 
 ###
