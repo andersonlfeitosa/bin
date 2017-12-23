@@ -1,0 +1,73 @@
+#!/bin/bash
+
+COMMENT='a very simple commit';
+
+###
+# CMD
+###
+press_to_continue() {
+  echo "press any key to continue";
+  read;
+}
+
+###
+# SHOW
+###
+show_step() {
+  NAME=$1;
+  POS=$2;
+  FINAL=10
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+  echo "Step: "$NAME" ("$POS"/"$FINAL")";
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+}
+
+###
+# PROTOTYPE
+###
+prototype() {
+  COMMAND=$1;
+  NAME=$2;
+  POS=$3;
+  
+  show_step "$NAME" "$POS";
+
+  case "$COMMAND" in
+    status )
+      git status;
+      ;;
+    pull )
+      git pull;
+      ;;
+    add )
+      git add .;
+      ;;
+    commit )
+      git commit -m "$COMMENT";
+      ;;
+    push )
+      git push;
+      ;;
+  esac
+
+  press_to_continue;
+}
+
+###
+# MAIN
+###
+if [ $? == 1 ]
+then
+  COMMENT=$1;
+fi
+
+prototype "status" "GIT STATUS" "1"
+prototype "pull" "GIT PULL" "2"
+prototype "status" "GIT STATUS" "3"
+prototype "add" "GIT ADD" "4"
+prototype "status" "GIT STATUS" "5"
+prototype "commit" "GIT COMMIT" "6"
+prototype "status" "GIT STATUS" "7"
+prototype "pull" "GIT PULL" "8"
+prototype "status" "GIT STATUS" "9"
+prototype "push" "GIT PUSH" "10"
