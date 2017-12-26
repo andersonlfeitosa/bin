@@ -1,6 +1,7 @@
 #!/bin/bash
 
 COMMENT='a very simple commit';
+BRANCH='master';
 
 ###
 # CMD
@@ -29,26 +30,28 @@ show_step() {
 ###
 prototype() {
   COMMAND=$1;
-  NAME=$2;
-  POS=$3;
-  
-  show_step "$NAME" "$POS";
+  POS=$2;
 
   case "$COMMAND" in
     status )
+      show_step "GIT STATUS" "$POS";
       git status;
       ;;
     pull )
-      git pull;
+      show_step "GIT PULL" "$POS";
+      git pull origin $BRANCH;
       ;;
     add )
+      show_step "GIT ADD" "$POS";
       git add .;
       ;;
     commit )
+      show_step "GIT COMMIT" "$POS";
       git commit -m "$COMMENT";
       ;;
     push )
-      git push;
+      show_step "GIT PUSH" "$POS";
+      git push origin $BRANCH;
       ;;
   esac
 
@@ -58,18 +61,24 @@ prototype() {
 ###
 # MAIN
 ###
-if [ $? == 1 ]
+if [ $? == 2 ]
 then
-  COMMENT=$1;
+  BRANCH=$1;
+  COMMENT=$2;
+else 
+  if [ $? == 1 ]
+  then
+    BRANCH=$1;
+  fi
 fi
 
-prototype "status" "GIT STATUS" "1"
-prototype "pull" "GIT PULL" "2"
-prototype "status" "GIT STATUS" "3"
-prototype "add" "GIT ADD" "4"
-prototype "status" "GIT STATUS" "5"
-prototype "commit" "GIT COMMIT" "6"
-prototype "status" "GIT STATUS" "7"
-prototype "pull" "GIT PULL" "8"
-prototype "status" "GIT STATUS" "9"
-prototype "push" "GIT PUSH" "10"
+prototype "status" "1"
+prototype "pull" "2"
+prototype "status" "3"
+prototype "add" "4"
+prototype "status" "5"
+prototype "commit" "6"
+prototype "status" "7"
+prototype "pull" "8"
+prototype "status" "9"
+prototype "push" "10"
