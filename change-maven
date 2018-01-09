@@ -4,7 +4,7 @@ MY_SCRIPT=`basename "$0"`
 
 COMPANY=cabal
 
-MAVEN_HOME=/usr/local/Cellar/maven/3.5.0
+MAVEN_HOME=/usr/local/Cellar/maven/3.5.2
 MAVEN_CONF_DIR=$MAVEN_HOME/libexec/conf
 
 if [ -f $MAVEN_CONF_DIR/COMPANY ]
