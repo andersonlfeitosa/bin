@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR=`pwd`
 if [ $# == 1 ]
 then
   DIR=$1;
@@ -8,21 +8,20 @@ fi
 
 for a in `ls $DIR`; do {
   DIR_TO_CKECk=$DIR/$a
-  echo ">>>" $DIR_TO_CKECk;
-  if [ -d $DIR_TO_CKECk ]
+  if [ -d $DIR_TO_CKECk ] && [ -d $DIR_TO_CKECk/.git ]
   then
     cd $DIR_TO_CKECk;
-    if [ -d .git ]
-    then
-      echo "$ git status";
-      git status;
-      echo "$ git pull";
-      git pull;
-      echo "$ git status";
-      git status;
-      echo;
-    fi
-    cd ..;
+
+    echo "--------------------------------------------------------------------------------";
+    echo $DIR_TO_CKECk;
+    echo "--------------------------------------------------------------------------------";
+    git status -s;
+    echo "pull";
+    git pull;
+    git status -s;
+    echo;
+
+    cd $DIR;
   fi
 }; done;
 
