@@ -7,15 +7,25 @@ COMPANY=cabal
 MAVEN_HOME=/usr/local/Cellar/maven/3.5.2
 MAVEN_CONF_DIR=$MAVEN_HOME/libexec/conf
 
-if [ -f $MAVEN_CONF_DIR/COMPANY ]
+if [ -f $MAVEN_CONF_DIR/COMPANY ] && [ -f $MAVEN_CONF_DIR/settings.default.xml ]
 then 
-  rm -f $MAVEN_CONF_DIR/COMPANY;
-  cp $MAVEN_CONF_DIR/settings.default.xml $MAVEN_CONF_DIR/settings.xml;
-  touch $MAVEN_CONF_DIR/DEFAULT;
-else
-  rm -f $MAVEN_CONF_DIR/DEFAULT;
-  cp $MAVEN_CONF_DIR/settings.$COMPANY.xml $MAVEN_CONF_DIR/settings.xml;
-  touch $MAVEN_CONF_DIR/COMPANY;
+  rm -f $MAVEN_CONF_DIR/COMPANY
+  cp $MAVEN_CONF_DIR/settings.default.xml $MAVEN_CONF_DIR/settings.xml
+  touch $MAVEN_CONF_DIR/DEFAULT
+elif [ -f $MAVEN_CONF_DIR/DEFAULT ] && [ -f $MAVEN_CONF_DIR/settings.$COMPANY.xml ]
+then
+  rm -f $MAVEN_CONF_DIR/DEFAULT
+  cp $MAVEN_CONF_DIR/settings.$COMPANY.xml $MAVEN_CONF_DIR/settings.xml
+  touch $MAVEN_CONF_DIR/COMPANY
+else 
+  if [ ! -f $MAVEN_CONF_DIR/settings.default.xml ]
+  then 
+    echo "The $MAVEN_CONF_DIR/settings.default.xml does not exist."
+  fi
+  if [ ! -f $MAVEN_CONF_DIR/settings.$COMPANY.xml ]
+  then 
+    echo "The $MAVEN_CONF_DIR/settings.$COMPANY.xml does not exist."
+  fi
 fi
 
 cat $MAVEN_CONF_DIR/settings.xml
