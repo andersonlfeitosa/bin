@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMENT='a very simple commit';
+COMMENT='make it better';
 BRANCH='master';
 
 ###
