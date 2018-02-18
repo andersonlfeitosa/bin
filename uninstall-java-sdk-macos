@@ -1,16 +1,53 @@
 #!/bin/bash
 
-VERSION="1.8.0_144"
+VERSION_9="9.0.4"
+VERSION_8="1.8.0_162"
 
-if [ $# == 1 ]
-then
-  VERSION=$1
+show_help() {
+  MY_SCRIPT=`basename "$0"`
+  echo "usage: "$MY_SCRIPT" java_version"
+  echo "java_version: 8 or 9"
+}
+
+get_java_version() {
+  if [ $1 == 8 ]; then
+    echo $VERSION_8;
+  elif [ $1 == 9 ]; then
+    echo "-"$VERSION_9;
+  else
+    echo "";
+  fi
+}
+
+
+remove_java_sdk() {
+  VERSION=`get_java_version $1`
+  sudo rm -rf /Library/Java/JavaVirtualMachines/jdk$VERSION.jdk
+  sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
+  sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+  sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
+  sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
+  sudo rm -rf /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist
+  sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
+}
+
+##
+# MAIN
+##
+if [ $# == 1 ]; then
+  case "$1" in
+    8 )
+      remove_java_sdk 8
+      ;;
+    9 )
+      remove_java_sdk 9
+      ;;
+    * )
+      show_help;
+      exit 0;
+      ;;
+  esac
+else
+  show_help;
+  exit 0;
 fi
-
-sudo rm -rf /Library/Java/JavaVirtualMachines/jdk$VERSION.jdk
-sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
-sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
-sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
-sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
-sudo rm -rf /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist
-sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
