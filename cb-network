@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# IP do CheckPoint: 192.168.10.200
+
+
+show_help() {
+  MY_SCRIPT=`basename "$0"`
+  echo "usage: "$MY_SCRIPT" option"
+  echo "option: on or off"
+}
+
+check_sudo() {
+  sudo java -version > /dev/null 2>&1
+}
+
+add_route() {
+  #sudo route -n add -net 192.168.5.0/16 192.168.7.1;
+  #sudo route -n add -host 192.168.5.204 192.168.7.1;
+  #sudo route -n add -host 192.168.10.220 192.168.7.1;
+  #sudo route -n add -host 192.168.10.253 192.168.7.1;
+
+  check_sudo;
+
+  echo "===== Old Wi-Fi ====="
+  sudo networksetup -getdnsservers "Wi-Fi"
+  echo "===== Old Thunderbolt Ethernet ====="
+  sudo networksetup -getdnsservers "Thunderbolt Ethernet"
+
+  sudo networksetup -setdnsservers Wi-Fi 192.168.10.220 192.168.10.253
+
+  echo "===== New Wi-Fi ====="
+  sudo networksetup -getdnsservers "Wi-Fi"
+  echo "===== New Thunderbolt Ethernet ====="
+  sudo networksetup -getdnsservers "Thunderbolt Ethernet"
+}
+
+del_route() {
+  #sudo route -n delete -net 192.168.5.0/16 192.168.7.1;
+  #sudo route -n delete -host 192.168.5.204;
+  #sudo route -n delete -host 192.168.10.220;
+  #sudo route -n delete -host 192.168.10.253;
+
+  check_sudo;
+
+  echo "===== Old Wi-Fi ====="
+  sudo networksetup -getdnsservers "Wi-Fi"
+  echo "===== Old Thunderbolt Ethernet ====="
+  sudo networksetup -getdnsservers "Thunderbolt Ethernet"
+
+  sudo networksetup -setdnsservers Wi-Fi empty
+
+  echo "===== New Wi-Fi ====="
+  sudo networksetup -getdnsservers "Wi-Fi"
+  echo "===== New Thunderbolt Ethernet ====="
+  sudo networksetup -getdnsservers "Thunderbolt Ethernet"
+}
+
+##
+# MAIN
+##
+if [ $# == 1 ]; then
+  case "$1" in
+    on )
+      add_route
+      ;;
+    off )
+      del_route
+      ;;
+    * )
+      show_help;
+      exit 0;
+      ;;
+  esac
+else
+  show_help;
+  exit 0;
+fi
