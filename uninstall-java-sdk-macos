@@ -1,12 +1,14 @@
 #!/bin/bash
 
+VERSION_11="11"
+VERSION_10="10.0.2"
 VERSION_9="9.0.4"
 VERSION_8="1.8.0_181"
 
 show_help() {
   MY_SCRIPT=`basename "$0"`
   echo "usage: "$MY_SCRIPT" java_version"
-  echo "java_version: 8 or 9"
+  echo "java_version: 8 or 9 or 10 or 11"
 }
 
 get_java_version() {
@@ -14,11 +16,14 @@ get_java_version() {
     echo $VERSION_8;
   elif [ $1 == 9 ]; then
     echo "-"$VERSION_9;
+  elif [ $1 == 10 ]; then
+    echo "-"$VERSION_10;
+  elif [ $1 == 11 ]; then
+    echo "-"$VERSION_11;
   else
     echo "";
   fi
 }
-
 
 remove_java_sdk() {
   VERSION=`get_java_version $1`
@@ -41,6 +46,12 @@ if [ $# == 1 ]; then
       ;;
     9 )
       remove_java_sdk 9
+      ;;
+    10)
+      remove_java_sdk 10
+      ;;
+    11)
+      remove_java_sdk 11
       ;;
     * )
       show_help;
