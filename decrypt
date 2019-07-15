@@ -3,4 +3,4 @@
 KEY=MBiRz7UYXe7N7iXkRkkexDZ6APPpL03ZWWzZU3tWAVEKZ0HsXyP9Wq0PAwhidQ6XUpPtGLfD11zzZzaSCH6j1nsLBH8WLYujffh
 VALUE=$1
 
-java -jar decrypt.jar $KEY $VALUE
+java -jar /Users/anderson.feitosa/cabal-brasil/bin/decrypt.jar $KEY $VALUE
