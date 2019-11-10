@@ -4,7 +4,7 @@ MY_SCRIPT=`basename "$0"`
 
 COMPANY=cabal
 
-MAVEN_HOME=/Users/anderson.feitosa/.sdkman/candidates/maven/3.6.2
+MAVEN_HOME=$HOME/.sdkman/candidates/maven/3.6.2
 MAVEN_CONF_DIR=$MAVEN_HOME/conf
 
 if [ -f $MAVEN_CONF_DIR/COMPANY ] && [ -f $MAVEN_CONF_DIR/settings.default.xml ]
