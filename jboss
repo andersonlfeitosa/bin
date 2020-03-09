@@ -1,0 +1,9 @@
+#!/bin/zsh 
+
+rm -rf /Users/anderson.feitosa/jboss-6.1.0.Final/server/default/data
+rm -rf /Users/anderson.feitosa/jboss-6.1.0.Final/server/default/tmp
+rm -rf /Users/anderson.feitosa/jboss-6.1.0.Final/server/default/work
+
+cd /Users/anderson.feitosa/jboss-6.1.0.Final/bin
+
+./run.sh
