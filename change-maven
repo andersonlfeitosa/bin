@@ -2,10 +2,10 @@
 
 MY_SCRIPT=`basename "$0"`
 
-COMPANY=cabal
+COMPANY=cb
 
-MAVEN_HOME=$HOME/.sdkman/candidates/maven/3.6.2
-MAVEN_CONF_DIR=$MAVEN_HOME/conf
+MAVEN_HOME="$HOME/.m2"
+MAVEN_CONF_DIR="$MAVEN_HOME"
 
 if [ -f $MAVEN_CONF_DIR/COMPANY ] && [ -f $MAVEN_CONF_DIR/settings.default.xml ]
 then 
@@ -20,11 +20,11 @@ then
 else 
   if [ ! -f $MAVEN_CONF_DIR/settings.default.xml ]
   then 
-    echo "The $MAVEN_CONF_DIR/settings.default.xml does not exist."
+    echo "The $MAVEN_CONF_DIR/settings.default.xml does not exists."
   fi
   if [ ! -f $MAVEN_CONF_DIR/settings.$COMPANY.xml ]
   then 
-    echo "The $MAVEN_CONF_DIR/settings.$COMPANY.xml does not exist."
+    echo "The $MAVEN_CONF_DIR/settings.$COMPANY.xml does not exists."
   fi
 fi
 
