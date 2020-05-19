@@ -1,64 +1,37 @@
 #!/bin/bash
 
-VERSION_11="11"
-VERSION_10="10.0.2"
-VERSION_9="9.0.4"
-VERSION_8="1.8.0_201"
-
-show_help() {
-  MY_SCRIPT=`basename "$0"`
-  echo "usage: "$MY_SCRIPT" java_version"
-  echo "java_version: 8 or 9 or 10 or 11"
-}
-
-get_java_version() {
-  if [ $1 == 8 ]; then
-    echo $VERSION_8;
-  elif [ $1 == 9 ]; then
-    echo "-"$VERSION_9;
-  elif [ $1 == 10 ]; then
-    echo "-"$VERSION_10;
-  elif [ $1 == 11 ]; then
-    echo "-"$VERSION_11;
-  else
-    echo "";
-  fi
-}
-
-remove_java_sdk() {
-  VERSION=`get_java_version $1`
-  sudo rm -rf /Library/Java/JavaVirtualMachines/jdk$VERSION.jdk
-  sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
-  sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
-  sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
-  sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
-  sudo rm -rf /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist
-  sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
-}
-
 ##
 # MAIN
 ##
-if [ $# == 1 ]; then
-  case "$1" in
-    8 )
-      remove_java_sdk 8
-      ;;
-    9 )
-      remove_java_sdk 9
-      ;;
-    10)
-      remove_java_sdk 10
-      ;;
-    11)
-      remove_java_sdk 11
-      ;;
-    * )
-      show_help;
-      exit 0;
-      ;;
-  esac
-else
-  show_help;
-  exit 0;
-fi
+sudo ls /dev 1> /dev/null 2> /dev/null
+
+echo "---------------------------"
+echo "JDK installed versions list"
+echo "---------------------------"
+echo ""
+sudo ls -1 /Library/Java/JavaVirtualMachines;
+
+read -p "Enter JDK version to remove (ex1: jdk1.8.0_201.jdk, ex2: jdk-9.0.4.jdk) or CTRL+C to cancel: " JAVA_VERSION_TO_REMOVE
+
+echo "Removing /Library/Java/JavaVirtualMachines/"$JAVA_VERSION_TO_REMOVE""
+sudo rm -rf /Library/Java/JavaVirtualMachines/"$JAVA_VERSION_TO_REMOVE"
+
+echo "Removing /Library/PreferencePanes/JavaControlPanel.prefPane"
+sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
+
+echo "Removing /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin"
+sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+
+echo "Removing /Library/LaunchAgents/com.oracle.java.Java-Updater.plist"
+sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
+
+echo "Removing /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper"
+sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
+
+echo "Removing /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist"
+sudo rm -rf /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist
+
+echo "Removing /Library/Preferences/com.oracle.java.Helper-Tool.plist"
+sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
+
+
