@@ -33,5 +33,3 @@ sudo rm -rf /Library/LaunchDaemons/com.oracle.java.Helper-Tool.plist
 
 echo "Removing /Library/Preferences/com.oracle.java.Helper-Tool.plist"
 sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
-
-
