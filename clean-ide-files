@@ -10,5 +10,7 @@ for a in *; do {
     rm -rf $a/.classpath;
     rm -rf $a/.settings;
     rm -rf $a/.idea;
+    rm -rf $a/.factoryPath;
+    rm -rf $a/*.iml;
   fi
 }; done;
