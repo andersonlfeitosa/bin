@@ -1,0 +1,15 @@
+#!/bin/bash
+
+change_config_network() {
+  sudo networksetup -setdnsservers "$MACOS_NETWORK_INTERFACE" 8.8.8.8 8.8.4.4
+  sudo networksetup -setsearchdomains "$MACOS_NETWORK_INTERFACE" "Empty"
+}
+
+if [ $# == 1 ] && [ "$1" == "eth0" ]
+then
+  MACOS_NETWORK_INTERFACE="Thunderbolt Ethernet"
+  change_config_network
+else 
+  MACOS_NETWORK_INTERFACE="Wi-Fi"
+  change_config_network
+fi
