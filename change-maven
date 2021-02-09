@@ -2,30 +2,26 @@
 
 MY_SCRIPT=`basename "$0"`
 
-COMPANY=cb
-
 MAVEN_HOME="$HOME/.m2"
-MAVEN_CONF_DIR="$MAVEN_HOME"
+MAVEN_CONFIG_FILE=$(cat $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION)
 
-if [ -f $MAVEN_CONF_DIR/COMPANY ] && [ -f $MAVEN_CONF_DIR/settings.default.xml ]
+DIR_ORI=$HOME/Dropbox/development/maven
+
+if [ $MAVEN_CONFIG_FILE ] && [ $MAVEN_CONFIG_FILE = "1" ] 
 then 
-  rm -f $MAVEN_CONF_DIR/COMPANY
-  cp $MAVEN_CONF_DIR/settings.default.xml $MAVEN_CONF_DIR/settings.xml
-  touch $MAVEN_CONF_DIR/DEFAULT
-elif [ -f $MAVEN_CONF_DIR/DEFAULT ] && [ -f $MAVEN_CONF_DIR/settings.$COMPANY.xml ]
+  echo "2" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
+  cp $DIR_ORI/settings_1.xml $MAVEN_HOME/settings.xml
+elif [ $MAVEN_CONFIG_FILE ] && [ $MAVEN_CONFIG_FILE = "2" ] 
 then
-  rm -f $MAVEN_CONF_DIR/DEFAULT
-  cp $MAVEN_CONF_DIR/settings.$COMPANY.xml $MAVEN_CONF_DIR/settings.xml
-  touch $MAVEN_CONF_DIR/COMPANY
+  echo "3" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
+  cp $DIR_ORI/settings_2.xml $MAVEN_HOME/settings.xml
+elif [ $MAVEN_CONFIG_FILE ] && [ $MAVEN_CONFIG_FILE = "3" ] 
+then 
+  echo "1" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
+  cp $DIR_ORI/settings_3.xml $MAVEN_HOME/settings.xml
 else 
-  if [ ! -f $MAVEN_CONF_DIR/settings.default.xml ]
-  then 
-    echo "The $MAVEN_CONF_DIR/settings.default.xml does not exists."
-  fi
-  if [ ! -f $MAVEN_CONF_DIR/settings.$COMPANY.xml ]
-  then 
-    echo "The $MAVEN_CONF_DIR/settings.$COMPANY.xml does not exists."
-  fi
+  echo "default" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
+  cp $DIR_ORI/settings_1.xml $MAVEN_HOME/settings.xml
 fi
 
-cat $MAVEN_CONF_DIR/settings.xml
+cat $MAVEN_HOME/settings.xml
