@@ -7,7 +7,10 @@ MAVEN_CONFIG_FILE=$(cat $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION)
 
 DIR_ORI=$HOME/Dropbox/development/maven
 
-if [ $MAVEN_CONFIG_FILE ] && [ $MAVEN_CONFIG_FILE = "1" ] 
+if [ $# == 1 ]
+then
+  cp $DIR_ORI/settings_$1.xml $MAVEN_HOME/settings.xml
+elif [ $MAVEN_CONFIG_FILE ] && [ $MAVEN_CONFIG_FILE = "1" ] 
 then 
   echo "2" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
   cp $DIR_ORI/settings_1.xml $MAVEN_HOME/settings.xml
@@ -20,7 +23,7 @@ then
   echo "1" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
   cp $DIR_ORI/settings_3.xml $MAVEN_HOME/settings.xml
 else 
-  echo "default" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
+  echo "1" > $MAVEN_HOME/MAVEN_CONFIG_FILE_OPTION
   cp $DIR_ORI/settings_1.xml $MAVEN_HOME/settings.xml
 fi
 
