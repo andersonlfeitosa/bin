@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf ls ~/Library/Application\ Support/JetBrains/
+rm -rf ~/Library/Caches/JetBrains
+rm -rf ~/Library/Logs/JetBrains
